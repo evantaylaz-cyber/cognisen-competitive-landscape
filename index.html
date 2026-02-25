@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cognisen Competitive Landscape</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: #0F172A; color: #E2E8F0; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState } = React;
+    const competitors = [
+      { name: "Tyler Tech", x: 18, y: 72, color: "#DC2626", size: 52, threat: "HIGH", desc: "Q4 2025: AI Resident Assistant live in 6 states. 17K monthly users. Anthropic + OpenAI partnerships. Agentic AI pilots Q1 2026. $245M R&D budget. Enterprise Supervision already in AZ (3,600 users). They're 6-12 months from a probation AI module.", tag: "INCUMBENT" },
+      { name: "Q2i / PARCA", x: 42, y: 58, color: "#7C3AED", size: 30, threat: "MED", desc: "NIH-funded. Launched Nov 2025. Patented tech. APPA director endorsement. Travis County + Dallas County deployments. Client-facing coaching, not officer-facing docs \u2014 but competes for same budget dollars and 'AI for probation' narrative.", tag: "INSURGENT" },
+      { name: "Equivant", x: 10, y: 65, color: "#EA580C", size: 40, threat: "LOW", desc: "Risk assessment leader + CMS. COMPAS baggage (racial bias scrutiny). Zero AI product. Focused on workflow automation. Potential channel partner for Cognisen \u2014 they need an AI layer.", tag: "LEGACY" },
+      { name: "CaseBase", x: 58, y: 68, color: "#8B5CF6", size: 22, threat: "MED", desc: "AI-native CMS for community supervision. 2-10 employees, est. 2024. If they achieve PMF, they could bundle AI docs into the CMS \u2014 eliminating the need for an overlay product like Cognisen.", tag: "STARTUP" },
+      { name: "Axon", x: 72, y: 12, color: "#4F46E5", size: 48, threat: "MED", desc: "Draft One: fastest-growing Axon product ever. Body-cam \u2192 AI police report. 82% time reduction. Lists probation/parole as target segment. 10-year bundled deals ($45M+ Maricopa). Could move downstream.", tag: "ADJACENT" },
+      { name: "Peach Safety", x: 55, y: 15, color: "#0891B2", size: 26, threat: "LOW", desc: "AI report writing for police. $15/user/mo. Not probation-specific. Would need significant retooling for community supervision compliance requirements.", tag: "ADJACENT" },
+      { name: "FieldWare", x: 12, y: 52, color: "#D97706", size: 28, threat: "LOW", desc: "Mobile-first supervision ops. No AI. Modular workflow automation. Niche player focused on field operations, not documentation.", tag: "LEGACY" },
+      { name: "Cognisen", x: 82, y: 88, color: "#F59E0B", size: 46, threat: null, desc: "$3M ARR. 9 counties (8 CA + TN). 98% close rate on pitched opportunities. All contracts sole-source. PEARL is the only purpose-built AI for probation documentation. Projecting $10M for 2026.", tag: "YOU", isCognisen: true },
+    ];
+    const clockData = { label: "COMPETITIVE WINDOW", months: "6\u201318 months", detail: "Before Tyler ships a 'good enough' AI documentation module to their existing 30,000 government installations" };
+    function CogniseLandscape() {
+      const [selected, setSelected] = useState(null);
+      const [showClock, setShowClock] = useState(false);
+      const [showGap, setShowGap] = useState(false);
+      const padding = { top: 60, right: 40, bottom: 60, left: 60 };
+      const width = 720; const height = 520;
+      const plotW = width - padding.left - padding.right;
+      const plotH = height - padding.top - padding.bottom;
+      const toX = (v) => padding.left + (v / 100) * plotW;
+      const toY = (v) => padding.top + ((100 - v) / 100) * plotH;
+      const threatColor = { HIGH: "#EF4444", MED: "#F59E0B", LOW: "#22C55E" };
+      return (
+        <div style={{ fontFamily: "system-ui, -apple-system, sans-serif", maxWidth: 800, margin: "0 auto", padding: 24, background: "#0F172A", color: "#E2E8F0", minHeight: "100vh" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
+            <div>
+              <h1 style={{ fontSize: 22, fontWeight: 700, color: "#F8FAFC", margin: "0 0 4px 0" }}>Cognisen Competitive Landscape</h1>
+              <p style={{ fontSize: 13, color: "#64748B", margin: 0 }}>AltVest Intelligence \u2014 February 2026</p>
+            </div>
+            <div style={{ display: "flex", gap: 8 }}>
+              <button onClick={() => { setShowClock(!showClock); setShowGap(false); }} style={{ padding: "8px 14px", borderRadius: 8, border: "1px solid #334155", background: showClock ? "#7F1D1D" : "#1E293B", color: showClock ? "#FCA5A5" : "#94A3B8", fontSize: 12, fontWeight: 600, cursor: "pointer", transition: "all 0.2s" }}>{showClock ? "\u2715" : "\u23f1"} Tyler Clock</button>
+              <button onClick={() => { setShowGap(!showGap); setShowClock(false); }} style={{ padding: "8px 14px", borderRadius: 8, border: "1px solid #334155", background: showGap ? "#713F12" : "#1E293B", color: showGap ? "#FDE68A" : "#94A3B8", fontSize: 12, fontWeight: 600, cursor: "pointer", transition: "all 0.2s" }}>{showGap ? "\u2715" : "\u25ce"} The Gap</button>
+            </div>
+          </div>
+          {showClock && (
+            <div style={{ marginBottom: 16, padding: 20, background: "#1C1917", borderRadius: 12, border: "1px solid #DC2626", borderLeft: "4px solid #DC2626" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+                <span style={{ fontSize: 28 }}>\u23f1</span>
+                <div>
+                  <p style={{ fontSize: 18, fontWeight: 800, color: "#FCA5A5", margin: 0 }}>{clockData.months}</p>
+                  <p style={{ fontSize: 11, color: "#A8A29E", margin: 0, textTransform: "uppercase", letterSpacing: 1 }}>{clockData.label}</p>
+                </div>
+              </div>
+              <p style={{ fontSize: 14, color: "#D6D3D1", margin: "0 0 12px 0", lineHeight: 1.6 }}>{clockData.detail}. Once Tyler's AI is "good enough," Cognisen's sole-source justification evaporates and every RFP becomes David vs. a $19B Goliath.</p>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
+                {[{ label: "Tyler R&D Budget", value: "$245M" }, { label: "Tyler Installations", value: "30,000" }, { label: "AI Partners", value: "Anthropic + OpenAI" }].map((stat, i) => (
+                  <div key={i} style={{ padding: 10, background: "#292524", borderRadius: 8, textAlign: "center" }}>
+                    <p style={{ fontSize: 18, fontWeight: 800, color: "#FECACA", margin: 0 }}>{stat.value}</p>
+                    <p style={{ fontSize: 10, color: "#A8A29E", margin: "4px 0 0 0" }}>{stat.label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          {showGap && (
+            <div style={{ marginBottom: 16, padding: 20, background: "#1C1917", borderRadius: 12, border: "1px solid #F59E0B", borderLeft: "4px solid #F59E0B" }}>
+              <p style={{ fontSize: 16, fontWeight: 800, color: "#FDE68A", margin: "0 0 12px 0" }}>The Sales Infrastructure Gap</p>
+              <p style={{ fontSize: 14, color: "#D6D3D1", margin: "0 0 14px 0", lineHeight: 1.6 }}>Cognisen has product-market fit. 98% close rate on warm referrals, ~30% projected on outbound. The bottleneck isn't product \u2014 it's pipeline. $3M ARR to $10M requires ~21 new county wins. Right now there's no dedicated sales leader, no enterprise sales motion, and the CEO is handling all selling personally.</p>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                {[{ label: "Current ARR", value: "$3M", sub: "9 counties" }, { label: "2026 Target", value: "$10M", sub: "~30 counties" }, { label: "Current Sales Team", value: "0", sub: "CEO handles all selling" }, { label: "Avg Deal Cycle", value: "3-9 mo", sub: "Government procurement" }].map((stat, i) => (
+                  <div key={i} style={{ padding: 10, background: "#292524", borderRadius: 8, textAlign: "center" }}>
+                    <p style={{ fontSize: 20, fontWeight: 800, color: "#FDE68A", margin: 0 }}>{stat.value}</p>
+                    <p style={{ fontSize: 10, color: "#A8A29E", margin: "4px 0 0 0" }}>{stat.label}</p>
+                    <p style={{ fontSize: 9, color: "#78716C", margin: "2px 0 0 0" }}>{stat.sub}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          <svg viewBox={"0 0 " + width + " " + height} style={{ width: "100%", background: "#1E293B", borderRadius: 12, border: "1px solid #334155" }}>
+            <rect x={padding.left} y={padding.top} width={plotW/2} height={plotH/2} fill="#1E293B" />
+            <rect x={padding.left + plotW/2} y={padding.top} width={plotW/2} height={plotH/2} fill="#172234" />
+            <rect x={padding.left} y={padding.top + plotH/2} width={plotW/2} height={plotH/2} fill="#1E293B" />
+            <rect x={padding.left + plotW/2} y={padding.top + plotH/2} width={plotW/2} height={plotH/2} fill="#1E293B" />
+            <rect x={toX(55)} y={toY(98)} width={toX(98) - toX(55)} height={toY(55) - toY(98)} fill="#F59E0B" opacity={0.05} rx={8} stroke="#F59E0B" strokeWidth={1.5} strokeDasharray="6 4" strokeOpacity={0.25} />
+            <text x={toX(76)} y={toY(94)} textAnchor="middle" fill="#F59E0B" fontSize={10} fontWeight={600} opacity={0.6}>DEFENSIBLE WHITE SPACE</text>
+            {showClock && (
+              <g>
+                <defs><marker id="arrowRed" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6" fill="#EF4444" opacity="0.6" /></marker></defs>
+                <line x1={toX(18)} y1={toY(72)} x2={toX(52)} y2={toY(78)} stroke="#EF4444" strokeWidth={2} strokeDasharray="8 4" opacity={0.5} markerEnd="url(#arrowRed)" />
+                <text x={toX(36)} y={toY(78)} textAnchor="middle" fill="#EF4444" fontSize={9} fontWeight={600} opacity={0.7} dy={-8}>Tyler's trajectory \u2192</text>
+              </g>
+            )}
+            <line x1={padding.left} y1={toY(50)} x2={padding.left + plotW} y2={toY(50)} stroke="#334155" strokeWidth={1} strokeDasharray="4 4" />
+            <line x1={toX(50)} y1={padding.top} x2={toX(50)} y2={padding.top + plotH} stroke="#334155" strokeWidth={1} strokeDasharray="4 4" />
+            <line x1={padding.left} y1={padding.top + plotH} x2={padding.left + plotW} y2={padding.top + plotH} stroke="#64748B" strokeWidth={1.5} />
+            <line x1={padding.left} y1={padding.top} x2={padding.left} y2={padding.top + plotH} stroke="#64748B" strokeWidth={1.5} />
+            <text x={padding.left + plotW / 2} y={height - 8} textAnchor="middle" fill="#94A3B8" fontSize={12} fontWeight={600}>AI CAPABILITY \u2192</text>
+            <text x={14} y={padding.top + plotH / 2} textAnchor="middle" fill="#94A3B8" fontSize={12} fontWeight={600} transform={"rotate(-90, 14, " + (padding.top + plotH / 2) + ")"}>PROBATION DEPTH \u2192</text>
+            <text x={padding.left + 4} y={padding.top + plotH + 18} fill="#64748B" fontSize={9}>No AI</text>
+            <text x={padding.left + plotW - 4} y={padding.top + plotH + 18} textAnchor="end" fill="#64748B" fontSize={9}>Purpose-Built AI</text>
+            <text x={padding.left - 8} y={padding.top + plotH - 4} textAnchor="end" fill="#64748B" fontSize={9}>Generic</text>
+            <text x={padding.left - 8} y={padding.top + 12} textAnchor="end" fill="#64748B" fontSize={9}>Deep</text>
+            <text x={toX(25)} y={toY(95)} textAnchor="middle" fill="#475569" fontSize={10} fontWeight={500}>Legacy CMS</text>
+            <text x={toX(75)} y={toY(6)} textAnchor="middle" fill="#475569" fontSize={10} fontWeight={500}>LE-Focused AI</text>
+            <text x={toX(25)} y={toY(6)} textAnchor="middle" fill="#475569" fontSize={10} fontWeight={500}>General Monitoring</text>
+            {competitors.map((c, i) => (
+              <g key={i} onClick={() => setSelected(selected === i ? null : i)} style={{ cursor: "pointer" }}>
+                <circle cx={toX(c.x)} cy={toY(c.y)} r={c.size / 2.8} fill={c.color} opacity={selected === i ? 0.95 : 0.7} stroke={c.isCognisen ? "#FCD34D" : selected === i ? "#E2E8F0" : "none"} strokeWidth={c.isCognisen ? 2.5 : selected === i ? 1.5 : 0} />
+                {c.isCognisen && (<circle cx={toX(c.x)} cy={toY(c.y)} r={c.size / 2.8 + 6} fill="none" stroke="#FCD34D" strokeWidth={1} opacity={0.35} strokeDasharray="3 3" />)}
+                <text x={toX(c.x)} y={toY(c.y) - c.size / 2.8 - 6} textAnchor="middle" fill={c.isCognisen ? "#FCD34D" : "#CBD5E1"} fontSize={c.isCognisen ? 12 : 10} fontWeight={c.isCognisen ? 700 : 500}>{c.name}</text>
+              </g>
+            ))}
+          </svg>
+          <div style={{ display: "flex", gap: 16, marginTop: 12, justifyContent: "center" }}>
+            {["HIGH", "MED", "LOW"].map(level => (
+              <div key={level} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <div style={{ width: 8, height: 8, borderRadius: "50%", background: threatColor[level] }} />
+                <span style={{ fontSize: 11, color: "#64748B" }}>{level} threat</span>
+              </div>
+            ))}
+          </div>
+          {selected !== null && (
+            <div style={{ marginTop: 16, padding: 18, background: "#1E293B", borderRadius: 12, border: "1px solid " + competitors[selected].color + "50" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <div style={{ width: 12, height: 12, borderRadius: "50%", background: competitors[selected].color }} />
+                  <span style={{ fontSize: 16, fontWeight: 700, color: "#F8FAFC" }}>{competitors[selected].name}</span>
+                  <span style={{ fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 4, background: competitors[selected].tag === "YOU" ? "#F59E0B20" : "#1E293B", color: competitors[selected].tag === "YOU" ? "#FCD34D" : "#94A3B8", border: "1px solid " + (competitors[selected].tag === "YOU" ? "#F59E0B40" : "#334155") }}>{competitors[selected].tag}</span>
+                </div>
+                {competitors[selected].threat && (
+                  <span style={{ fontSize: 11, fontWeight: 700, padding: "3px 10px", borderRadius: 6, background: threatColor[competitors[selected].threat] + "15", color: threatColor[competitors[selected].threat] }}>{competitors[selected].threat} THREAT</span>
+                )}
+              </div>
+              <p style={{ fontSize: 14, color: "#94A3B8", margin: 0, lineHeight: 1.6 }}>{competitors[selected].desc}</p>
+            </div>
+          )}
+          <div style={{ marginTop: 20, padding: 18, background: "#1C1917", borderRadius: 12, borderLeft: "4px solid #F59E0B" }}>
+            <p style={{ fontSize: 14, fontWeight: 700, color: "#FCD34D", margin: "0 0 8px 0" }}>BOTTOM LINE</p>
+            <p style={{ fontSize: 13, color: "#D6D3D1", margin: 0, lineHeight: 1.65 }}>Cognisen owns the only defensible position in AI-powered community supervision. But the window is finite. Tyler is sprinting toward AI with a $245M R&D budget and partnerships with Anthropic and OpenAI. Every county Cognisen locks into a 5-year contract before Tyler ships is a county that can't be easily displaced. The race isn't to build the best product \u2014 it's to build enough installed base that you're either the dominant niche player or an acquisition target worth 5-10x revenue. Both are excellent outcomes. The clock is ticking.</p>
+          </div>
+        </div>
+      );
+    }
+    ReactDOM.render(<CogniseLandscape />, document.getElementById('root'));
+  </script>
+</body>
+</html>
